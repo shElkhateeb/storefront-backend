@@ -18,7 +18,7 @@ describe('Product Model', () => {
 		});
 	});
 
-	describe('Functionality of User Methods', () => {
+	describe('Functionality of Product Methods', () => {
 		const product = {
 			name: 'P1',
 			price: 10,
