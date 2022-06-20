@@ -41,6 +41,7 @@ The  application makes use of the following libraries:
 3. To create the testing database run the SQL command `CREATE DATABASE shopping_test` where `shopping_test` is the testing database.
 
 ### .env
+```
 POSTGRES_HOST=127.0.0.1
 POSTGRES_DB=shopping
 POSTGRES_TEST_DB=shopping_test
@@ -50,6 +51,7 @@ ENV=dev
 BCRYPT_PASSWORD=secret
 SALT_ROUNDS=10
 TOKEN_SECRET=secrettoken
+```
 
 ## Resources
 - [PostgreSQL – Data Types](https://www.geeksforgeeks.org/postgresql-data-types/)
