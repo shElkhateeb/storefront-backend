@@ -1,12 +1,10 @@
 import supertest from 'supertest';
 import { app } from './../../server';
-import { User, UserStore } from '../../models/user';
+import { User } from '../../models/user';
 import Client from '../../database';
-import { json } from 'body-parser';
 import { Product } from '../../models/product';
 
 const request = supertest(app);
-const store = new UserStore();
 
 describe('Products Endpoints', () => {
 	const product = {
@@ -64,11 +62,4 @@ describe('Products Endpoints', () => {
 		const response = await request.get('/products/:id');
 		expect(response.status).toBe(200);
 	});
-
-	it('Delete endpoint', async () => {
-		const response = await request.delete('products/:id')
-		.set('Authorization', `Bearer ${token}`);
-		expect(response.status).toBe(200);
-	});
-    
 });

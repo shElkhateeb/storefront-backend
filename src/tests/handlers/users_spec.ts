@@ -16,6 +16,8 @@ describe('Users Endpoints', () => {
 
 	let token: string;
 
+	beforeAll(()=>{});
+
 	afterAll(async ()=> {
 		/* delete users*/
 				//open connection
@@ -75,13 +77,6 @@ describe('Users Endpoints', () => {
 	it('Show endpoint', async () => {
 		const response = await request
 		.get('/users/:id')
-		.set('Authorization', `Bearer ${token}`);
-		expect(response.status).toBe(200);
-	});
-
-	it('Delete endpoint', async () => {
-		const response = await request
-		.delete('users/:id')
 		.set('Authorization', `Bearer ${token}`);
 		expect(response.status).toBe(200);
 	});
