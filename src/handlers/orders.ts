@@ -51,7 +51,7 @@ const addProduct = async (req: Request, res: Response) => {
 
 export const order_routes = (app: express.Application) => {
 	app.get('/users/:userID/orders/current', verifyAuthtoken, currentOrder);
-	app.post('users/:userID/orders', verifyAuthtoken, create);
+	app.post('/users/:userID/orders', verifyAuthtoken, create);
 	app.post(
 		'/users/:userID/orders/current/products',
 		verifyAuthtoken,
