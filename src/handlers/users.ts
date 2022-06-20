@@ -33,8 +33,8 @@ const create = async (req: Request, res: Response) => {
 	try {
 		const user: User = {
 			email: req.body.email,
-			first_name: req.body.firstName,
-			last_name: req.body.lastName,
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
 			password: req.body.password,
 		};
 		const newUser = await Store.create(user);
