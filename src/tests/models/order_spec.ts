@@ -1,6 +1,7 @@
 import { Order, OrderStore } from '../../models/order';
 import { UserStore } from '../../models/user';
 import { Product, ProductStore } from '../../models/product';
+import Client from '../../database';
 
 const store = new OrderStore();
 const uStore = new UserStore();
@@ -32,9 +33,18 @@ describe('Order Model', () => {
 			price: 10,
 		});
 
-		afterAll(async () => {
-			await uStore.delete(user.id as number);
-			await pStore.delete(product.id as number);
+		afterAll(async ()=> {
+			/* delete products and users*/
+					//open connection
+					const conn = await Client.connect();
+					//delete products
+					let sql = 'DELETE FROM products; DELETE FROM users';
+					conn.query(sql);
+					// reset id
+					sql = 'ALTER SEQUENCE products_id_seq RESTART WITH 1; ALTER SEQUENCE users_id_seq RESTART WITH 1';
+					conn.query(sql);
+					//release connection
+					conn.release();
 		});
 
 		it('create method should place a new order', async () => {

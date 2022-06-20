@@ -1,4 +1,5 @@
 import { Product, ProductStore } from '../../models/product';
+import Client from '../../database';
 
 const store = new ProductStore();
 
@@ -24,6 +25,20 @@ describe('Product Model', () => {
 			price: 10,
 		} as Product;
 
+		afterAll(async ()=> {
+			/* delete products*/
+					//open connection
+					const conn = await Client.connect();
+					//delete products
+					let sql = 'DELETE FROM products';
+					conn.query(sql);
+					// reset id
+					sql = 'ALTER SEQUENCE products_id_seq RESTART WITH 1';
+					conn.query(sql);
+					//release connection
+					conn.release();
+		});
+
 		it('create method should add a new product', async () => {
 			const result = await store.create(product);
 			expect(result.id).toEqual(1);
@@ -48,6 +63,7 @@ describe('Product Model', () => {
 		it('index method should return an empty array afrer deletion', async () => {
 			await store.delete(1);
 			const result = await store.index();
+			console.log(result);
 			expect(result.length).toEqual(0);
 		});
 	});
