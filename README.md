@@ -23,7 +23,7 @@ The  application makes use of the following libraries:
 2. We create tables by running the `npx db-migrate up` command.
 3. To start the server run the `npm run start` command from the terminal. The backend runs on port 3000, and the database on port 5432.
 
-#### Database Migrations
+### Database Migrations
 - Create all tables: `npx db-migrate up`
 - Drop one table at a time: `npx db-migrate up`
 - Drop all tables: `npx db-migrate reset`
@@ -34,9 +34,11 @@ The  application makes use of the following libraries:
 - watch: `npm run watch`
 - test: `npm run test`
 
-To connect to the container we run `docker exec  -i -t storefront-backend_postgres_1 /bin/bash` where `storefront-backend_postgres_1` is the container name.
-To connect to the postgreSQL database we run the following command in the terminal:
+### Setting up the testing database
+1. To connect to the container we run `docker exec  -i -t storefront-backend_postgres_1 /bin/bash` where `storefront-backend_postgres_1` is the container name.
+2. To connect to the postgreSQL database we run the following command in the terminal:
 `psql shopping -h localhost -U shopping_user postgres` where `shopping` is the `POSTGRES_DB` and `shopping_user` is the `POSTGRES_USER`.
+3. To create the testing database run the SQL command `CREATE DATABASE shopping_test` where `shopping_test` is the testing database.
 
 ## Resources
 - [PostgreSQL – Data Types](https://www.geeksforgeeks.org/postgresql-data-types/)
