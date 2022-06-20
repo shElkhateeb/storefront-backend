@@ -25,18 +25,18 @@ describe('Product Model', () => {
 			price: 10,
 		} as Product;
 
-		afterAll(async ()=> {
+		afterAll(async () => {
 			/* delete products*/
-					//open connection
-					const conn = await Client.connect();
-					//delete products
-					let sql = 'DELETE FROM products';
-					conn.query(sql);
-					// reset id
-					sql = 'ALTER SEQUENCE products_id_seq RESTART WITH 1';
-					conn.query(sql);
-					//release connection
-					conn.release();
+			//open connection
+			const conn = await Client.connect();
+			//delete products
+			let sql = 'DELETE FROM products';
+			conn.query(sql);
+			// reset id
+			sql = 'ALTER SEQUENCE products_id_seq RESTART WITH 1';
+			conn.query(sql);
+			//release connection
+			conn.release();
 		});
 
 		it('create method should add a new product', async () => {

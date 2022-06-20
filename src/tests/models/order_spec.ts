@@ -19,7 +19,7 @@ describe('Order Model', () => {
 		let product: Product;
 		let order: Order;
 
-		beforeAll(async()=>{
+		beforeAll(async () => {
 			user = await uStore.create({
 				email: 'om@mail.com',
 				first_name: 'Test',
@@ -33,25 +33,24 @@ describe('Order Model', () => {
 			order = await store.create(user.id as number);
 		});
 
-		afterAll(async ()=> {
+		afterAll(async () => {
 			/* delete orders, products, and users*/
-					//open connection
-					const conn = await Client.connect();
-					//delete orders, products, users
-					let sql = 'DELETE FROM orders; DELETE FROM products; DELETE FROM users';
-					conn.query(sql);
-					// reset id
-					sql = 'ALTER SEQUENCE orders_id_seq RESTART WITH 1; ALTER SEQUENCE products_id_seq RESTART WITH 1; ALTER SEQUENCE users_id_seq RESTART WITH 1';
-					conn.query(sql);
-					//release connection
-					conn.release();
+			//open connection
+			const conn = await Client.connect();
+			//delete orders, products, users
+			let sql = 'DELETE FROM orders; DELETE FROM products; DELETE FROM users';
+			conn.query(sql);
+			// reset id
+			sql =
+				'ALTER SEQUENCE orders_id_seq RESTART WITH 1; ALTER SEQUENCE products_id_seq RESTART WITH 1; ALTER SEQUENCE users_id_seq RESTART WITH 1';
+			conn.query(sql);
+			//release connection
+			conn.release();
 		});
-		it ('Current order of user', async()=>{
+		it('Current order of user', async () => {
 			const result = await store.currentOrder(user.id as number);
 			expect(result.id).toBe(order.id);
 			expect(result.status_of_order).toBe('active');
 		});
-
 	});
-	
 });
