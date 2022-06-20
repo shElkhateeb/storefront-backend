@@ -1,57 +1,88 @@
-// import supertest from 'supertest';
-// import { app } from './../../server';
-// import { User, UserStore } from '../../models/user';
-// import Client from '../../database';
+import supertest from 'supertest';
+import { app } from './../../server';
+import { User, UserStore } from '../../models/user';
+import Client from '../../database';
 
-// const request = supertest(app);
-// const store = new UserStore();
+const request = supertest(app);
+const store = new UserStore();
 
-// describe('Users Endpoints', () => {
-// 	const user = {
-// 		email: 'tu&mail.com',
-// 		first_name: 'Test',
-// 		last_name: 'User',
-// 		password: '1234',
-// 	} as User;
+describe('Users Endpoints', () => {
+	const user = {
+		email: 'tu@mail.com',
+		first_name: 'Test',
+		last_name: 'User',
+		password: '1234',
+	} as User;
 
-// 	beforeAll(async ()=> {
-// 		const createdUser = await store.create(user);
-// 	});
+	let token: string;
 
-// 	// afterAll(async ()=> {
-// 	// 	/* delete users*/
-// 	// 			//open connection
-// 	// 			const conn = await Client.connect();
-// 	// 			//delete users
-// 	// 			let sql = 'DELETE FROM USERS';
-// 	// 			conn.query(sql);
-// 	// 			// reset id
-// 	// 			sql = 'ALTER SEQUENCE users_id_seq RESTART WITH 1';
-// 	// 			conn.query(sql);
-// 	// 			//release connection
-// 	// 			conn.release();
-// 	// });
-// 	it('Index endpoint', async () => {
-// 		const response = await request.get('/users');
-// 		expect(response.status).toBe(200);
-// 	});
+	afterAll(async ()=> {
+		/* delete users*/
+				//open connection
+				const conn = await Client.connect();
+				//delete users
+				let sql = 'DELETE FROM USERS';
+				conn.query(sql);
+				// reset id
+				sql = 'ALTER SEQUENCE users_id_seq RESTART WITH 1';
+				conn.query(sql);
+				//release connection
+				conn.release();
+	});
 
-// 	it('Show endpoint', async () => {
-// 		const response = await request.get('/users/:id');
-// 		expect(response.status).toBe(200);
-// 	});
+    it('Create endpoint', async () => {
+		const response = await request
+		.post('/users')
+		.set('content-type', 'application/json')
+		.send(user);
+		expect(response.status).toBe(200);
+		
+		/* check response body */
+		expect(response.body.user.id).toBe(1);
+		expect(response.body.user.email).toBe(user.email);
+		expect(response.body.user.first_name).toBe(user.first_name);
+		expect(response.body.user.last_name).toBe(user.last_name);
 
-// 	it('Create endpoint', async () => {
-// 		const response = await request.post('/users')
-// 		.set('content-type', 'application/json')
-// 		// .set('Authentication', `Bearer ${createdUser.token}`);
-// 		expect(response.status).toBe(200);
-// 	});
+		token = response.body.token;
+	});
 
-// 	it('Delete endpoint', async () => {
-// 		const response = await request.delete('users/:id')
-// 		.set('content-type', 'application/json')
-// 		// .set('Authentication', `Bearer ${token}`);
-// 		expect(response.status).toBe(200);
-// 	});
-// });
+	it('Authenticate endpoint', async () => {
+		const response = await request
+		.post('/users/authenticate')
+		.set('content-type', 'application/json')
+		.send({
+			email: user.email,
+			password: user.password
+		});
+		expect(response.status).toBe(200);
+		
+		/* check response body */
+		expect(response.body.user.id).toBe(1);
+		expect(response.body.user.email).toBe(user.email);
+		expect(response.body.user.first_name).toBe(user.first_name);
+		expect(response.body.user.last_name).toBe(user.last_name);
+
+		token = response.body.token;
+	});
+
+	it('Index endpoint', async () => {
+		const response = await request
+		.get('/users')
+		.set('Authorization', `Bearer ${token}`);
+		expect(response.status).toBe(200);
+	});
+
+	it('Show endpoint', async () => {
+		const response = await request
+		.get('/users/:id')
+		.set('Authorization', `Bearer ${token}`);
+		expect(response.status).toBe(200);
+	});
+
+	it('Delete endpoint', async () => {
+		const response = await request
+		.delete('users/:id')
+		.set('Authorization', `Bearer ${token}`);
+		expect(response.status).toBe(200);
+	});
+});
