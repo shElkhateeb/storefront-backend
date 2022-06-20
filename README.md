@@ -40,6 +40,17 @@ The  application makes use of the following libraries:
 `psql shopping -h localhost -U shopping_user postgres` where `shopping` is the `POSTGRES_DB` and `shopping_user` is the `POSTGRES_USER`.
 3. To create the testing database run the SQL command `CREATE DATABASE shopping_test` where `shopping_test` is the testing database.
 
+### .env
+POSTGRES_HOST=127.0.0.1
+POSTGRES_DB=shopping
+POSTGRES_TEST_DB=shopping_test
+POSTGRES_USER=shopping_user
+POSTGRES_PASSWORD=password123
+ENV=dev
+BCRYPT_PASSWORD=secret
+SALT_ROUNDS=10
+TOKEN_SECRET=secrettoken
+
 ## Resources
 - [PostgreSQL – Data Types](https://www.geeksforgeeks.org/postgresql-data-types/)
 - [Default Values](https://www.postgresql.org/docs/current/ddl-default.html#:~:text=If%20no%20default%20value%20is,after%20the%20column%20data%20type.)
