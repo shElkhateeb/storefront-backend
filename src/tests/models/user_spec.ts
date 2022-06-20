@@ -49,7 +49,7 @@ describe('User Model', () => {
 			).toBe(true);
 		});
 
-		it('authenticate method should return authenticated userrow', async () => {
+		it('authenticate method should return authenticated user', async () => {
 			const authenticatedUser = await store.authenticate(
 				user.email,
 				user.password as string
@@ -59,7 +59,7 @@ describe('User Model', () => {
 			expect(authenticatedUser?.last_name).toBe(user.last_name);
 		});
 
-		it('index method should return an array of userrows', async () => {
+		it('index method should return an array of users', async () => {
 			const result = await store.index();
 			expect(result[0].id).toEqual(1);
 			expect(result[0].email).toEqual(user.email);
@@ -73,7 +73,7 @@ describe('User Model', () => {
 			).toBe(true);
 		});
 
-		it('show method should return the correct user row', async () => {
+		it('show method should return the correct user', async () => {
 			const result = await store.show(1);
 			expect(result.id).toEqual(1);
 			expect(result.email).toEqual(user.email);

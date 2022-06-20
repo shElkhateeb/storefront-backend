@@ -63,7 +63,6 @@ describe('Product Model', () => {
 		it('index method should return an empty array afrer deletion', async () => {
 			await store.delete(1);
 			const result = await store.index();
-			console.log(result);
 			expect(result.length).toEqual(0);
 		});
 	});
