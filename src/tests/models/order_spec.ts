@@ -22,7 +22,7 @@ describe('Order Model', () => {
 
 	describe('Functionality of Order Methods', async () => {
 		const user = await uStore.create({
-			email: 'tu@mail.com',
+			email: 'om@mail.com',
 			first_name: 'Test',
 			last_name: 'User',
 			password: 'pass1234',

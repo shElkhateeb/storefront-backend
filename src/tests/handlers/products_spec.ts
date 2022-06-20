@@ -1,59 +1,74 @@
-// import supertest from 'supertest';
-// import { app } from './../../server';
-// import { User, UserStore } from '../../models/user';
-// import Client from '../../database';
+import supertest from 'supertest';
+import { app } from './../../server';
+import { User, UserStore } from '../../models/user';
+import Client from '../../database';
+import { json } from 'body-parser';
+import { Product } from '../../models/product';
 
-// const request = supertest(app);
-// const store = new UserStore();
+const request = supertest(app);
+const store = new UserStore();
 
-// describe('Products Endpoints', () => {
-// 	const user = {
-// 		email: 'tu&mail.com',
-// 		first_name: 'Test',
-// 		last_name: 'User',
-// 		password: '1234',
-// 	} as User;
+describe('Products Endpoints', () => {
+	const product = {
+		name: 'p1',
+		price: 11
+	} as Product;
 
-// 	// let res: Response;
+	const user = {
+		email: 'ph@mail.com',
+		first_name: 'Test',
+		last_name: 'User',
+		password: '1234',
+	} as User;
 
-// 	// beforeAll(async ()=> {
-// 	// 	// res = await app.post('/users');
-// 	// });
+	let token: string;
 
-// 	// afterAll(async ()=> {
-// 	// 	/* delete users*/
-// 	// 			//open connection
-// 	// 			const conn = await Client.connect();
-// 	// 			//delete users
-// 	// 			let sql = 'DELETE FROM USERS';
-// 	// 			conn.query(sql);
-// 	// 			// reset id
-// 	// 			sql = 'ALTER SEQUENCE users_id_seq RESTART WITH 1';
-// 	// 			conn.query(sql);
-// 	// 			//release connection
-// 	// 			conn.release();
-// 	// });
-// 	it('Index endpoint', async () => {
-// 		const response = await request.get('/products');
-// 		expect(response.status).toBe(200);
-// 	});
+	beforeAll(async ()=> {
+		const response = await request
+		.post('/users')
+		.set('content-type', 'application/json')
+		.send(user);
 
-// 	it('Show endpoint', async () => {
-// 		const response = await request.get('/products/:id');
-// 		expect(response.status).toBe(200);
-// 	});
+		token = response.body.token;
+	});
 
-// 	it('Create endpoint', async () => {
-// 		const response = await request.post('/products')
-// 		.set('content-type', 'application/json')
-// 		// .set('Authentication', `Bearer ${createdUser.token}`);
-// 		expect(response.status).toBe(200);
-// 	});
+    afterAll(async ()=> {
+		/* delete users*/
+				//open connection
+				const conn = await Client.connect();
+				//delete users
+				let sql = 'DELETE FROM users; DELETE FROM products';
+				conn.query(sql);
+				// reset id
+				sql = 'ALTER SEQUENCE users_id_seq RESTART WITH 1; ALTER SEQUENCE products_id_seq RESTART WITH 1';
+				conn.query(sql);
+				//release connection
+				conn.release();
+	});
 
-// 	it('Delete endpoint', async () => {
-// 		const response = await request.delete('products/:id')
-// 		.set('content-type', 'application/json')
-// 		// .set('Authentication', `Bearer ${token}`);
-// 		expect(response.status).toBe(200);
-// 	});
-// });
+	it('Create endpoint', async () => {
+		const response = await request
+		.post('/products')
+		.set('content-type', 'application/json')
+		.set('Authorization', `Bearer ${token}`)
+		.send(product);
+		expect(response.status).toBe(200);
+	});
+
+	it('Index endpoint', async () => {
+		const response = await request.get('/products');
+		expect(response.status).toBe(200);
+	});
+
+	it('Show endpoint', async () => {
+		const response = await request.get('/products/:id');
+		expect(response.status).toBe(200);
+	});
+
+	it('Delete endpoint', async () => {
+		const response = await request.delete('products/:id')
+		.set('Authorization', `Bearer ${token}`);
+		expect(response.status).toBe(200);
+	});
+    
+});

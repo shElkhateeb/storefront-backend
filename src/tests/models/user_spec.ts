@@ -29,7 +29,7 @@ describe('User Model', () => {
 
 	describe('Functionality of User Methods', () => {
 		const user = {
-			email: 'tu@mail.com',
+			email: 'um@mail.com',
 			first_name: 'Test',
 			last_name: 'User',
 			password: 'pass1234',

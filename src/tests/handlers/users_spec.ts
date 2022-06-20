@@ -8,7 +8,7 @@ const store = new UserStore();
 
 describe('Users Endpoints', () => {
 	const user = {
-		email: 'tu@mail.com',
+		email: 'uh@mail.com',
 		first_name: 'Test',
 		last_name: 'User',
 		password: '1234',
@@ -55,7 +55,7 @@ describe('Users Endpoints', () => {
 			password: user.password
 		});
 		expect(response.status).toBe(200);
-		
+
 		/* check response body */
 		expect(response.body.user.id).toBe(1);
 		expect(response.body.user.email).toBe(user.email);
