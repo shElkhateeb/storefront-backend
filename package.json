@@ -7,7 +7,7 @@
     "prettier": "prettier --config .prettierrc ./src/**/*.ts --write",
     "start": "tsc && node dist/server.js",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "set ENV=test && tsc && db-migrate up --env test && tsc && jasmine && db-migrate reset"
+    "test": "tsc && set ENV=test&& db-migrate --env test up && jasmine && db-migrate --env test reset"
   },
   "author": "Udacity",
   "license": "ISC",
