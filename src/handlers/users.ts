@@ -84,5 +84,5 @@ export const user_routes = (app: express.Application) => {
 	app.get('/users/:id', verifyAuthtoken, show);
 	app.post('/users', create);
 	app.delete('/users/:id', verifyAuthtoken, del);
-	app.post('users/authenticate', authenticate);
+	app.post('/users/authenticate', authenticate);
 };
